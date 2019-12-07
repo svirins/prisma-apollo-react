@@ -1,0 +1,40 @@
+
+type User {
+  id:           ID! @id
+  name:         String!      @unique
+  email:        String!      @unique
+  password:     String!
+  groups:       [Group!] 
+}
+
+type Group {
+  id:           ID! @id
+  author:       User!         @relation(link: INLINE)
+  name:         String!       @default(value: "New AA Group")
+  description:  String!       @default(value: "Some descriptive description")
+  city:         String!
+  region:       regionType! 
+  phone:        String
+  email:        String
+  address:      String
+  geodata:      Geometry! 
+  meetings:     [Meeting!]! 
+}
+
+type Meeting  {
+  id:           ID! @id
+  group:        Group!        @relation(link: INLINE)
+  name:         String!       @default(value: "New AA Meeting")
+  weekday:      Weekday!
+  time:         String!
+  type:         meetingType
+}
+
+type Geometry {
+  id:           ID! @id
+  group:        Group!        @relation(link: INLINE)
+  latitude:     Float!
+  longitude:    Float!
+}
+
+
