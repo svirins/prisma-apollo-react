@@ -7,5 +7,20 @@ export const Query: QueryResolvers.Type = {
   ...QueryResolvers.defaultResolvers,
   user: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
+  },
+  group: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  },
+  groupByName: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  },
+  groups: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  },
+  meeting: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  },
+  meetings: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
   }
 };

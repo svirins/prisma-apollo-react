@@ -56,4 +56,9 @@ enum regionType {
 
 type Query {
 	user: User
+  group(id: ID!): Group
+  groupByName(name: String): Group
+  groups: [Group!]
+  meeting(id: ID!): Meeting
+  meetings: [Meeting!]
 }

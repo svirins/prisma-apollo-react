@@ -17,6 +17,18 @@ export type meetingType = "Open" | "Closed";
 export namespace QueryResolvers {
   export const defaultResolvers = {};
 
+  export interface ArgsGroup {
+    id: string;
+  }
+
+  export interface ArgsGroupByName {
+    name?: string | null;
+  }
+
+  export interface ArgsMeeting {
+    id: string;
+  }
+
   export type UserResolver =
     | ((
         parent: undefined,
@@ -32,6 +44,91 @@ export namespace QueryResolvers {
           ctx: Context,
           info: GraphQLResolveInfo
         ) => User | null | Promise<User | null>;
+      };
+
+  export type GroupResolver =
+    | ((
+        parent: undefined,
+        args: ArgsGroup,
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => Group | null | Promise<Group | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsGroup,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Group | null | Promise<Group | null>;
+      };
+
+  export type GroupByNameResolver =
+    | ((
+        parent: undefined,
+        args: ArgsGroupByName,
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => Group | null | Promise<Group | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsGroupByName,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Group | null | Promise<Group | null>;
+      };
+
+  export type GroupsResolver =
+    | ((
+        parent: undefined,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => Group[] | null | Promise<Group[] | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Group[] | null | Promise<Group[] | null>;
+      };
+
+  export type MeetingResolver =
+    | ((
+        parent: undefined,
+        args: ArgsMeeting,
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => Meeting | null | Promise<Meeting | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsMeeting,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Meeting | null | Promise<Meeting | null>;
+      };
+
+  export type MeetingsResolver =
+    | ((
+        parent: undefined,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo
+      ) => Meeting[] | null | Promise<Meeting[] | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Meeting[] | null | Promise<Meeting[] | null>;
       };
 
   export interface Type {
@@ -50,6 +147,91 @@ export namespace QueryResolvers {
             ctx: Context,
             info: GraphQLResolveInfo
           ) => User | null | Promise<User | null>;
+        };
+
+    group:
+      | ((
+          parent: undefined,
+          args: ArgsGroup,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Group | null | Promise<Group | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsGroup,
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => Group | null | Promise<Group | null>;
+        };
+
+    groupByName:
+      | ((
+          parent: undefined,
+          args: ArgsGroupByName,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Group | null | Promise<Group | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsGroupByName,
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => Group | null | Promise<Group | null>;
+        };
+
+    groups:
+      | ((
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Group[] | null | Promise<Group[] | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => Group[] | null | Promise<Group[] | null>;
+        };
+
+    meeting:
+      | ((
+          parent: undefined,
+          args: ArgsMeeting,
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Meeting | null | Promise<Meeting | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsMeeting,
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => Meeting | null | Promise<Meeting | null>;
+        };
+
+    meetings:
+      | ((
+          parent: undefined,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo
+        ) => Meeting[] | null | Promise<Meeting[] | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo
+          ) => Meeting[] | null | Promise<Meeting[] | null>;
         };
   }
 }
