@@ -17,7 +17,8 @@ type Group {
   phone:        String
   email:        String
   address:      String
-  geodata:      Geometry! 
+  lattitude:    Float 
+  longitude:cd    Float
   meetings:     [Meeting!]! 
 }
 
@@ -30,11 +31,6 @@ type Meeting  {
   type:         meetingType
 }
 
-type Geometry {
-  id:           ID! @id
-  group:        Group!        @relation(link: INLINE)
-  latitude:     Float!
-  longitude:    Float!
-}
+
 
 

@@ -2,11 +2,7 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateGeometry {
-  count: Int!
-}
-
-type AggregateGroup {
+export const typeDefs = /* GraphQL */ `type AggregateGroup {
   count: Int!
 }
 
@@ -22,144 +18,6 @@ type BatchPayload {
   count: Long!
 }
 
-type Geometry {
-  id: ID!
-  group: Group!
-  latitude: Float!
-  longitude: Float!
-}
-
-type GeometryConnection {
-  pageInfo: PageInfo!
-  edges: [GeometryEdge]!
-  aggregate: AggregateGeometry!
-}
-
-input GeometryCreateInput {
-  id: ID
-  group: GroupCreateOneWithoutGeodataInput!
-  latitude: Float!
-  longitude: Float!
-}
-
-input GeometryCreateOneWithoutGroupInput {
-  create: GeometryCreateWithoutGroupInput
-  connect: GeometryWhereUniqueInput
-}
-
-input GeometryCreateWithoutGroupInput {
-  id: ID
-  latitude: Float!
-  longitude: Float!
-}
-
-type GeometryEdge {
-  node: Geometry!
-  cursor: String!
-}
-
-enum GeometryOrderByInput {
-  id_ASC
-  id_DESC
-  latitude_ASC
-  latitude_DESC
-  longitude_ASC
-  longitude_DESC
-}
-
-type GeometryPreviousValues {
-  id: ID!
-  latitude: Float!
-  longitude: Float!
-}
-
-type GeometrySubscriptionPayload {
-  mutation: MutationType!
-  node: Geometry
-  updatedFields: [String!]
-  previousValues: GeometryPreviousValues
-}
-
-input GeometrySubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: GeometryWhereInput
-  AND: [GeometrySubscriptionWhereInput!]
-  OR: [GeometrySubscriptionWhereInput!]
-  NOT: [GeometrySubscriptionWhereInput!]
-}
-
-input GeometryUpdateInput {
-  group: GroupUpdateOneRequiredWithoutGeodataInput
-  latitude: Float
-  longitude: Float
-}
-
-input GeometryUpdateManyMutationInput {
-  latitude: Float
-  longitude: Float
-}
-
-input GeometryUpdateOneRequiredWithoutGroupInput {
-  create: GeometryCreateWithoutGroupInput
-  update: GeometryUpdateWithoutGroupDataInput
-  upsert: GeometryUpsertWithoutGroupInput
-  connect: GeometryWhereUniqueInput
-}
-
-input GeometryUpdateWithoutGroupDataInput {
-  latitude: Float
-  longitude: Float
-}
-
-input GeometryUpsertWithoutGroupInput {
-  update: GeometryUpdateWithoutGroupDataInput!
-  create: GeometryCreateWithoutGroupInput!
-}
-
-input GeometryWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  group: GroupWhereInput
-  latitude: Float
-  latitude_not: Float
-  latitude_in: [Float!]
-  latitude_not_in: [Float!]
-  latitude_lt: Float
-  latitude_lte: Float
-  latitude_gt: Float
-  latitude_gte: Float
-  longitude: Float
-  longitude_not: Float
-  longitude_in: [Float!]
-  longitude_not_in: [Float!]
-  longitude_lt: Float
-  longitude_lte: Float
-  longitude_gt: Float
-  longitude_gte: Float
-  AND: [GeometryWhereInput!]
-  OR: [GeometryWhereInput!]
-  NOT: [GeometryWhereInput!]
-}
-
-input GeometryWhereUniqueInput {
-  id: ID
-}
-
 type Group {
   id: ID!
   author: User!
@@ -170,7 +28,8 @@ type Group {
   phone: String
   email: String
   address: String
-  geodata: Geometry!
+  lattitude: Float
+  longitude: Float
   meetings(where: MeetingWhereInput, orderBy: MeetingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Meeting!]
 }
 
@@ -190,18 +49,14 @@ input GroupCreateInput {
   phone: String
   email: String
   address: String
-  geodata: GeometryCreateOneWithoutGroupInput!
+  lattitude: Float
+  longitude: Float
   meetings: MeetingCreateManyWithoutGroupInput
 }
 
 input GroupCreateManyWithoutAuthorInput {
   create: [GroupCreateWithoutAuthorInput!]
   connect: [GroupWhereUniqueInput!]
-}
-
-input GroupCreateOneWithoutGeodataInput {
-  create: GroupCreateWithoutGeodataInput
-  connect: GroupWhereUniqueInput
 }
 
 input GroupCreateOneWithoutMeetingsInput {
@@ -218,20 +73,8 @@ input GroupCreateWithoutAuthorInput {
   phone: String
   email: String
   address: String
-  geodata: GeometryCreateOneWithoutGroupInput!
-  meetings: MeetingCreateManyWithoutGroupInput
-}
-
-input GroupCreateWithoutGeodataInput {
-  id: ID
-  author: UserCreateOneWithoutGroupsInput!
-  name: String
-  description: String
-  city: String!
-  region: regionType!
-  phone: String
-  email: String
-  address: String
+  lattitude: Float
+  longitude: Float
   meetings: MeetingCreateManyWithoutGroupInput
 }
 
@@ -245,7 +88,8 @@ input GroupCreateWithoutMeetingsInput {
   phone: String
   email: String
   address: String
-  geodata: GeometryCreateOneWithoutGroupInput!
+  lattitude: Float
+  longitude: Float
 }
 
 type GroupEdge {
@@ -270,6 +114,10 @@ enum GroupOrderByInput {
   email_DESC
   address_ASC
   address_DESC
+  lattitude_ASC
+  lattitude_DESC
+  longitude_ASC
+  longitude_DESC
 }
 
 type GroupPreviousValues {
@@ -281,6 +129,8 @@ type GroupPreviousValues {
   phone: String
   email: String
   address: String
+  lattitude: Float
+  longitude: Float
 }
 
 input GroupScalarWhereInput {
@@ -386,6 +236,22 @@ input GroupScalarWhereInput {
   address_not_starts_with: String
   address_ends_with: String
   address_not_ends_with: String
+  lattitude: Float
+  lattitude_not: Float
+  lattitude_in: [Float!]
+  lattitude_not_in: [Float!]
+  lattitude_lt: Float
+  lattitude_lte: Float
+  lattitude_gt: Float
+  lattitude_gte: Float
+  longitude: Float
+  longitude_not: Float
+  longitude_in: [Float!]
+  longitude_not_in: [Float!]
+  longitude_lt: Float
+  longitude_lte: Float
+  longitude_gt: Float
+  longitude_gte: Float
   AND: [GroupScalarWhereInput!]
   OR: [GroupScalarWhereInput!]
   NOT: [GroupScalarWhereInput!]
@@ -418,7 +284,8 @@ input GroupUpdateInput {
   phone: String
   email: String
   address: String
-  geodata: GeometryUpdateOneRequiredWithoutGroupInput
+  lattitude: Float
+  longitude: Float
   meetings: MeetingUpdateManyWithoutGroupInput
 }
 
@@ -430,6 +297,8 @@ input GroupUpdateManyDataInput {
   phone: String
   email: String
   address: String
+  lattitude: Float
+  longitude: Float
 }
 
 input GroupUpdateManyMutationInput {
@@ -440,6 +309,8 @@ input GroupUpdateManyMutationInput {
   phone: String
   email: String
   address: String
+  lattitude: Float
+  longitude: Float
 }
 
 input GroupUpdateManyWithoutAuthorInput {
@@ -459,13 +330,6 @@ input GroupUpdateManyWithWhereNestedInput {
   data: GroupUpdateManyDataInput!
 }
 
-input GroupUpdateOneRequiredWithoutGeodataInput {
-  create: GroupCreateWithoutGeodataInput
-  update: GroupUpdateWithoutGeodataDataInput
-  upsert: GroupUpsertWithoutGeodataInput
-  connect: GroupWhereUniqueInput
-}
-
 input GroupUpdateOneRequiredWithoutMeetingsInput {
   create: GroupCreateWithoutMeetingsInput
   update: GroupUpdateWithoutMeetingsDataInput
@@ -481,19 +345,8 @@ input GroupUpdateWithoutAuthorDataInput {
   phone: String
   email: String
   address: String
-  geodata: GeometryUpdateOneRequiredWithoutGroupInput
-  meetings: MeetingUpdateManyWithoutGroupInput
-}
-
-input GroupUpdateWithoutGeodataDataInput {
-  author: UserUpdateOneRequiredWithoutGroupsInput
-  name: String
-  description: String
-  city: String
-  region: regionType
-  phone: String
-  email: String
-  address: String
+  lattitude: Float
+  longitude: Float
   meetings: MeetingUpdateManyWithoutGroupInput
 }
 
@@ -506,17 +359,13 @@ input GroupUpdateWithoutMeetingsDataInput {
   phone: String
   email: String
   address: String
-  geodata: GeometryUpdateOneRequiredWithoutGroupInput
+  lattitude: Float
+  longitude: Float
 }
 
 input GroupUpdateWithWhereUniqueWithoutAuthorInput {
   where: GroupWhereUniqueInput!
   data: GroupUpdateWithoutAuthorDataInput!
-}
-
-input GroupUpsertWithoutGeodataInput {
-  update: GroupUpdateWithoutGeodataDataInput!
-  create: GroupCreateWithoutGeodataInput!
 }
 
 input GroupUpsertWithoutMeetingsInput {
@@ -634,7 +483,22 @@ input GroupWhereInput {
   address_not_starts_with: String
   address_ends_with: String
   address_not_ends_with: String
-  geodata: GeometryWhereInput
+  lattitude: Float
+  lattitude_not: Float
+  lattitude_in: [Float!]
+  lattitude_not_in: [Float!]
+  lattitude_lt: Float
+  lattitude_lte: Float
+  lattitude_gt: Float
+  lattitude_gte: Float
+  longitude: Float
+  longitude_not: Float
+  longitude_in: [Float!]
+  longitude_not_in: [Float!]
+  longitude_lt: Float
+  longitude_lte: Float
+  longitude_gt: Float
+  longitude_gte: Float
   meetings_every: MeetingWhereInput
   meetings_some: MeetingWhereInput
   meetings_none: MeetingWhereInput
@@ -910,12 +774,6 @@ input MeetingWhereUniqueInput {
 }
 
 type Mutation {
-  createGeometry(data: GeometryCreateInput!): Geometry!
-  updateGeometry(data: GeometryUpdateInput!, where: GeometryWhereUniqueInput!): Geometry
-  updateManyGeometries(data: GeometryUpdateManyMutationInput!, where: GeometryWhereInput): BatchPayload!
-  upsertGeometry(where: GeometryWhereUniqueInput!, create: GeometryCreateInput!, update: GeometryUpdateInput!): Geometry!
-  deleteGeometry(where: GeometryWhereUniqueInput!): Geometry
-  deleteManyGeometries(where: GeometryWhereInput): BatchPayload!
   createGroup(data: GroupCreateInput!): Group!
   updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group
   updateManyGroups(data: GroupUpdateManyMutationInput!, where: GroupWhereInput): BatchPayload!
@@ -954,9 +812,6 @@ type PageInfo {
 }
 
 type Query {
-  geometry(where: GeometryWhereUniqueInput!): Geometry
-  geometries(where: GeometryWhereInput, orderBy: GeometryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Geometry]!
-  geometriesConnection(where: GeometryWhereInput, orderBy: GeometryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeometryConnection!
   group(where: GroupWhereUniqueInput!): Group
   groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
   groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
@@ -979,7 +834,6 @@ enum regionType {
 }
 
 type Subscription {
-  geometry(where: GeometrySubscriptionWhereInput): GeometrySubscriptionPayload
   group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
   meeting(where: MeetingSubscriptionWhereInput): MeetingSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload

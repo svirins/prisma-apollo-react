@@ -9,9 +9,6 @@ export const Group: GroupResolvers.Type = {
   author: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
   },
-  geodata: (parent, args, ctx) => {
-    throw new Error("Resolver not implemented");
-  },
   meetings: (parent, args, ctx) => {
     throw new Error("Resolver not implemented");
   }

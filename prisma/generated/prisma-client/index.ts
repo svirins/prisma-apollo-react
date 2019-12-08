@@ -16,7 +16,6 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
-  geometry: (where?: GeometryWhereInput) => Promise<boolean>;
   group: (where?: GroupWhereInput) => Promise<boolean>;
   meeting: (where?: MeetingWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -41,25 +40,6 @@ export interface Prisma {
    * Queries
    */
 
-  geometry: (where: GeometryWhereUniqueInput) => GeometryNullablePromise;
-  geometries: (args?: {
-    where?: GeometryWhereInput;
-    orderBy?: GeometryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Geometry>;
-  geometriesConnection: (args?: {
-    where?: GeometryWhereInput;
-    orderBy?: GeometryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => GeometryConnectionPromise;
   group: (where: GroupWhereUniqueInput) => GroupNullablePromise;
   groups: (args?: {
     where?: GroupWhereInput;
@@ -123,22 +103,6 @@ export interface Prisma {
    * Mutations
    */
 
-  createGeometry: (data: GeometryCreateInput) => GeometryPromise;
-  updateGeometry: (args: {
-    data: GeometryUpdateInput;
-    where: GeometryWhereUniqueInput;
-  }) => GeometryPromise;
-  updateManyGeometries: (args: {
-    data: GeometryUpdateManyMutationInput;
-    where?: GeometryWhereInput;
-  }) => BatchPayloadPromise;
-  upsertGeometry: (args: {
-    where: GeometryWhereUniqueInput;
-    create: GeometryCreateInput;
-    update: GeometryUpdateInput;
-  }) => GeometryPromise;
-  deleteGeometry: (where: GeometryWhereUniqueInput) => GeometryPromise;
-  deleteManyGeometries: (where?: GeometryWhereInput) => BatchPayloadPromise;
   createGroup: (data: GroupCreateInput) => GroupPromise;
   updateGroup: (args: {
     data: GroupUpdateInput;
@@ -196,9 +160,6 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  geometry: (
-    where?: GeometrySubscriptionWhereInput
-  ) => GeometrySubscriptionPayloadSubscription;
   group: (
     where?: GroupSubscriptionWhereInput
   ) => GroupSubscriptionPayloadSubscription;
@@ -246,7 +207,11 @@ export type GroupOrderByInput =
   | "email_ASC"
   | "email_DESC"
   | "address_ASC"
-  | "address_DESC";
+  | "address_DESC"
+  | "lattitude_ASC"
+  | "lattitude_DESC"
+  | "longitude_ASC"
+  | "longitude_DESC";
 
 export type MeetingOrderByInput =
   | "id_ASC"
@@ -260,14 +225,6 @@ export type MeetingOrderByInput =
   | "type_ASC"
   | "type_DESC";
 
-export type GeometryOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "latitude_ASC"
-  | "latitude_DESC"
-  | "longitude_ASC"
-  | "longitude_DESC";
-
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -280,7 +237,7 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type GeometryWhereUniqueInput = AtLeastOne<{
+export type GroupWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -388,7 +345,22 @@ export interface GroupWhereInput {
   address_not_starts_with?: Maybe<String>;
   address_ends_with?: Maybe<String>;
   address_not_ends_with?: Maybe<String>;
-  geodata?: Maybe<GeometryWhereInput>;
+  lattitude?: Maybe<Float>;
+  lattitude_not?: Maybe<Float>;
+  lattitude_in?: Maybe<Float[] | Float>;
+  lattitude_not_in?: Maybe<Float[] | Float>;
+  lattitude_lt?: Maybe<Float>;
+  lattitude_lte?: Maybe<Float>;
+  lattitude_gt?: Maybe<Float>;
+  lattitude_gte?: Maybe<Float>;
+  longitude?: Maybe<Float>;
+  longitude_not?: Maybe<Float>;
+  longitude_in?: Maybe<Float[] | Float>;
+  longitude_not_in?: Maybe<Float[] | Float>;
+  longitude_lt?: Maybe<Float>;
+  longitude_lte?: Maybe<Float>;
+  longitude_gt?: Maybe<Float>;
+  longitude_gte?: Maybe<Float>;
   meetings_every?: Maybe<MeetingWhereInput>;
   meetings_some?: Maybe<MeetingWhereInput>;
   meetings_none?: Maybe<MeetingWhereInput>;
@@ -462,43 +434,6 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface GeometryWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  group?: Maybe<GroupWhereInput>;
-  latitude?: Maybe<Float>;
-  latitude_not?: Maybe<Float>;
-  latitude_in?: Maybe<Float[] | Float>;
-  latitude_not_in?: Maybe<Float[] | Float>;
-  latitude_lt?: Maybe<Float>;
-  latitude_lte?: Maybe<Float>;
-  latitude_gt?: Maybe<Float>;
-  latitude_gte?: Maybe<Float>;
-  longitude?: Maybe<Float>;
-  longitude_not?: Maybe<Float>;
-  longitude_in?: Maybe<Float[] | Float>;
-  longitude_not_in?: Maybe<Float[] | Float>;
-  longitude_lt?: Maybe<Float>;
-  longitude_lte?: Maybe<Float>;
-  longitude_gt?: Maybe<Float>;
-  longitude_gte?: Maybe<Float>;
-  AND?: Maybe<GeometryWhereInput[] | GeometryWhereInput>;
-  OR?: Maybe<GeometryWhereInput[] | GeometryWhereInput>;
-  NOT?: Maybe<GeometryWhereInput[] | GeometryWhereInput>;
-}
-
 export interface MeetingWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
@@ -556,10 +491,6 @@ export interface MeetingWhereInput {
   NOT?: Maybe<MeetingWhereInput[] | MeetingWhereInput>;
 }
 
-export type GroupWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
 export type MeetingWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -570,19 +501,7 @@ export type UserWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
 }>;
 
-export interface GeometryCreateInput {
-  id?: Maybe<ID_Input>;
-  group: GroupCreateOneWithoutGeodataInput;
-  latitude: Float;
-  longitude: Float;
-}
-
-export interface GroupCreateOneWithoutGeodataInput {
-  create?: Maybe<GroupCreateWithoutGeodataInput>;
-  connect?: Maybe<GroupWhereUniqueInput>;
-}
-
-export interface GroupCreateWithoutGeodataInput {
+export interface GroupCreateInput {
   id?: Maybe<ID_Input>;
   author: UserCreateOneWithoutGroupsInput;
   name?: Maybe<String>;
@@ -592,6 +511,8 @@ export interface GroupCreateWithoutGeodataInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
   meetings?: Maybe<MeetingCreateManyWithoutGroupInput>;
 }
 
@@ -622,20 +543,7 @@ export interface MeetingCreateWithoutGroupInput {
   type?: Maybe<meetingType>;
 }
 
-export interface GeometryUpdateInput {
-  group?: Maybe<GroupUpdateOneRequiredWithoutGeodataInput>;
-  latitude?: Maybe<Float>;
-  longitude?: Maybe<Float>;
-}
-
-export interface GroupUpdateOneRequiredWithoutGeodataInput {
-  create?: Maybe<GroupCreateWithoutGeodataInput>;
-  update?: Maybe<GroupUpdateWithoutGeodataDataInput>;
-  upsert?: Maybe<GroupUpsertWithoutGeodataInput>;
-  connect?: Maybe<GroupWhereUniqueInput>;
-}
-
-export interface GroupUpdateWithoutGeodataDataInput {
+export interface GroupUpdateInput {
   author?: Maybe<UserUpdateOneRequiredWithoutGroupsInput>;
   name?: Maybe<String>;
   description?: Maybe<String>;
@@ -644,6 +552,8 @@ export interface GroupUpdateWithoutGeodataDataInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
   meetings?: Maybe<MeetingUpdateManyWithoutGroupInput>;
 }
 
@@ -774,71 +684,6 @@ export interface MeetingUpdateManyDataInput {
   type?: Maybe<meetingType>;
 }
 
-export interface GroupUpsertWithoutGeodataInput {
-  update: GroupUpdateWithoutGeodataDataInput;
-  create: GroupCreateWithoutGeodataInput;
-}
-
-export interface GeometryUpdateManyMutationInput {
-  latitude?: Maybe<Float>;
-  longitude?: Maybe<Float>;
-}
-
-export interface GroupCreateInput {
-  id?: Maybe<ID_Input>;
-  author: UserCreateOneWithoutGroupsInput;
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  city: String;
-  region: regionType;
-  phone?: Maybe<String>;
-  email?: Maybe<String>;
-  address?: Maybe<String>;
-  geodata: GeometryCreateOneWithoutGroupInput;
-  meetings?: Maybe<MeetingCreateManyWithoutGroupInput>;
-}
-
-export interface GeometryCreateOneWithoutGroupInput {
-  create?: Maybe<GeometryCreateWithoutGroupInput>;
-  connect?: Maybe<GeometryWhereUniqueInput>;
-}
-
-export interface GeometryCreateWithoutGroupInput {
-  id?: Maybe<ID_Input>;
-  latitude: Float;
-  longitude: Float;
-}
-
-export interface GroupUpdateInput {
-  author?: Maybe<UserUpdateOneRequiredWithoutGroupsInput>;
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  city?: Maybe<String>;
-  region?: Maybe<regionType>;
-  phone?: Maybe<String>;
-  email?: Maybe<String>;
-  address?: Maybe<String>;
-  geodata?: Maybe<GeometryUpdateOneRequiredWithoutGroupInput>;
-  meetings?: Maybe<MeetingUpdateManyWithoutGroupInput>;
-}
-
-export interface GeometryUpdateOneRequiredWithoutGroupInput {
-  create?: Maybe<GeometryCreateWithoutGroupInput>;
-  update?: Maybe<GeometryUpdateWithoutGroupDataInput>;
-  upsert?: Maybe<GeometryUpsertWithoutGroupInput>;
-  connect?: Maybe<GeometryWhereUniqueInput>;
-}
-
-export interface GeometryUpdateWithoutGroupDataInput {
-  latitude?: Maybe<Float>;
-  longitude?: Maybe<Float>;
-}
-
-export interface GeometryUpsertWithoutGroupInput {
-  update: GeometryUpdateWithoutGroupDataInput;
-  create: GeometryCreateWithoutGroupInput;
-}
-
 export interface GroupUpdateManyMutationInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
@@ -847,6 +692,8 @@ export interface GroupUpdateManyMutationInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
 }
 
 export interface MeetingCreateInput {
@@ -873,7 +720,8 @@ export interface GroupCreateWithoutMeetingsInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
-  geodata: GeometryCreateOneWithoutGroupInput;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
 }
 
 export interface MeetingUpdateInput {
@@ -900,7 +748,8 @@ export interface GroupUpdateWithoutMeetingsDataInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
-  geodata?: Maybe<GeometryUpdateOneRequiredWithoutGroupInput>;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
 }
 
 export interface GroupUpsertWithoutMeetingsInput {
@@ -939,7 +788,8 @@ export interface GroupCreateWithoutAuthorInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
-  geodata: GeometryCreateOneWithoutGroupInput;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
   meetings?: Maybe<MeetingCreateManyWithoutGroupInput>;
 }
 
@@ -985,7 +835,8 @@ export interface GroupUpdateWithoutAuthorDataInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
-  geodata?: Maybe<GeometryUpdateOneRequiredWithoutGroupInput>;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
   meetings?: Maybe<MeetingUpdateManyWithoutGroupInput>;
 }
 
@@ -1098,6 +949,22 @@ export interface GroupScalarWhereInput {
   address_not_starts_with?: Maybe<String>;
   address_ends_with?: Maybe<String>;
   address_not_ends_with?: Maybe<String>;
+  lattitude?: Maybe<Float>;
+  lattitude_not?: Maybe<Float>;
+  lattitude_in?: Maybe<Float[] | Float>;
+  lattitude_not_in?: Maybe<Float[] | Float>;
+  lattitude_lt?: Maybe<Float>;
+  lattitude_lte?: Maybe<Float>;
+  lattitude_gt?: Maybe<Float>;
+  lattitude_gte?: Maybe<Float>;
+  longitude?: Maybe<Float>;
+  longitude_not?: Maybe<Float>;
+  longitude_in?: Maybe<Float[] | Float>;
+  longitude_not_in?: Maybe<Float[] | Float>;
+  longitude_lt?: Maybe<Float>;
+  longitude_lte?: Maybe<Float>;
+  longitude_gt?: Maybe<Float>;
+  longitude_gte?: Maybe<Float>;
   AND?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
   OR?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
   NOT?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
@@ -1116,27 +983,14 @@ export interface GroupUpdateManyDataInput {
   phone?: Maybe<String>;
   email?: Maybe<String>;
   address?: Maybe<String>;
+  lattitude?: Maybe<Float>;
+  longitude?: Maybe<Float>;
 }
 
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
-}
-
-export interface GeometrySubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<GeometryWhereInput>;
-  AND?: Maybe<
-    GeometrySubscriptionWhereInput[] | GeometrySubscriptionWhereInput
-  >;
-  OR?: Maybe<GeometrySubscriptionWhereInput[] | GeometrySubscriptionWhereInput>;
-  NOT?: Maybe<
-    GeometrySubscriptionWhereInput[] | GeometrySubscriptionWhereInput
-  >;
 }
 
 export interface GroupSubscriptionWhereInput {
@@ -1176,37 +1030,6 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Geometry {
-  id: ID_Output;
-  latitude: Float;
-  longitude: Float;
-}
-
-export interface GeometryPromise extends Promise<Geometry>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  group: <T = GroupPromise>() => T;
-  latitude: () => Promise<Float>;
-  longitude: () => Promise<Float>;
-}
-
-export interface GeometrySubscription
-  extends Promise<AsyncIterator<Geometry>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  group: <T = GroupSubscription>() => T;
-  latitude: () => Promise<AsyncIterator<Float>>;
-  longitude: () => Promise<AsyncIterator<Float>>;
-}
-
-export interface GeometryNullablePromise
-  extends Promise<Geometry | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  group: <T = GroupPromise>() => T;
-  latitude: () => Promise<Float>;
-  longitude: () => Promise<Float>;
-}
-
 export interface Group {
   id: ID_Output;
   name: String;
@@ -1216,6 +1039,8 @@ export interface Group {
   phone?: String;
   email?: String;
   address?: String;
+  lattitude?: Float;
+  longitude?: Float;
 }
 
 export interface GroupPromise extends Promise<Group>, Fragmentable {
@@ -1228,7 +1053,8 @@ export interface GroupPromise extends Promise<Group>, Fragmentable {
   phone: () => Promise<String>;
   email: () => Promise<String>;
   address: () => Promise<String>;
-  geodata: <T = GeometryPromise>() => T;
+  lattitude: () => Promise<Float>;
+  longitude: () => Promise<Float>;
   meetings: <T = FragmentableArray<Meeting>>(args?: {
     where?: MeetingWhereInput;
     orderBy?: MeetingOrderByInput;
@@ -1252,7 +1078,8 @@ export interface GroupSubscription
   phone: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   address: () => Promise<AsyncIterator<String>>;
-  geodata: <T = GeometrySubscription>() => T;
+  lattitude: () => Promise<AsyncIterator<Float>>;
+  longitude: () => Promise<AsyncIterator<Float>>;
   meetings: <T = Promise<AsyncIterator<MeetingSubscription>>>(args?: {
     where?: MeetingWhereInput;
     orderBy?: MeetingOrderByInput;
@@ -1276,7 +1103,8 @@ export interface GroupNullablePromise
   phone: () => Promise<String>;
   email: () => Promise<String>;
   address: () => Promise<String>;
-  geodata: <T = GeometryPromise>() => T;
+  lattitude: () => Promise<Float>;
+  longitude: () => Promise<Float>;
   meetings: <T = FragmentableArray<Meeting>>(args?: {
     where?: MeetingWhereInput;
     orderBy?: MeetingOrderByInput;
@@ -1386,25 +1214,25 @@ export interface MeetingNullablePromise
   type: () => Promise<meetingType>;
 }
 
-export interface GeometryConnection {
+export interface GroupConnection {
   pageInfo: PageInfo;
-  edges: GeometryEdge[];
+  edges: GroupEdge[];
 }
 
-export interface GeometryConnectionPromise
-  extends Promise<GeometryConnection>,
+export interface GroupConnectionPromise
+  extends Promise<GroupConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<GeometryEdge>>() => T;
-  aggregate: <T = AggregateGeometryPromise>() => T;
+  edges: <T = FragmentableArray<GroupEdge>>() => T;
+  aggregate: <T = AggregateGroupPromise>() => T;
 }
 
-export interface GeometryConnectionSubscription
-  extends Promise<AsyncIterator<GeometryConnection>>,
+export interface GroupConnectionSubscription
+  extends Promise<AsyncIterator<GroupConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<GeometryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateGeometrySubscription>() => T;
+  edges: <T = Promise<AsyncIterator<GroupEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateGroupSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -1428,62 +1256,6 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface GeometryEdge {
-  node: Geometry;
-  cursor: String;
-}
-
-export interface GeometryEdgePromise
-  extends Promise<GeometryEdge>,
-    Fragmentable {
-  node: <T = GeometryPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface GeometryEdgeSubscription
-  extends Promise<AsyncIterator<GeometryEdge>>,
-    Fragmentable {
-  node: <T = GeometrySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateGeometry {
-  count: Int;
-}
-
-export interface AggregateGeometryPromise
-  extends Promise<AggregateGeometry>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateGeometrySubscription
-  extends Promise<AsyncIterator<AggregateGeometry>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface GroupConnection {
-  pageInfo: PageInfo;
-  edges: GroupEdge[];
-}
-
-export interface GroupConnectionPromise
-  extends Promise<GroupConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<GroupEdge>>() => T;
-  aggregate: <T = AggregateGroupPromise>() => T;
-}
-
-export interface GroupConnectionSubscription
-  extends Promise<AsyncIterator<GroupConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<GroupEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateGroupSubscription>() => T;
 }
 
 export interface GroupEdge {
@@ -1643,53 +1415,6 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface GeometrySubscriptionPayload {
-  mutation: MutationType;
-  node: Geometry;
-  updatedFields: String[];
-  previousValues: GeometryPreviousValues;
-}
-
-export interface GeometrySubscriptionPayloadPromise
-  extends Promise<GeometrySubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = GeometryPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = GeometryPreviousValuesPromise>() => T;
-}
-
-export interface GeometrySubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<GeometrySubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = GeometrySubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = GeometryPreviousValuesSubscription>() => T;
-}
-
-export interface GeometryPreviousValues {
-  id: ID_Output;
-  latitude: Float;
-  longitude: Float;
-}
-
-export interface GeometryPreviousValuesPromise
-  extends Promise<GeometryPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  latitude: () => Promise<Float>;
-  longitude: () => Promise<Float>;
-}
-
-export interface GeometryPreviousValuesSubscription
-  extends Promise<AsyncIterator<GeometryPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  latitude: () => Promise<AsyncIterator<Float>>;
-  longitude: () => Promise<AsyncIterator<Float>>;
-}
-
 export interface GroupSubscriptionPayload {
   mutation: MutationType;
   node: Group;
@@ -1724,6 +1449,8 @@ export interface GroupPreviousValues {
   phone?: String;
   email?: String;
   address?: String;
+  lattitude?: Float;
+  longitude?: Float;
 }
 
 export interface GroupPreviousValuesPromise
@@ -1737,6 +1464,8 @@ export interface GroupPreviousValuesPromise
   phone: () => Promise<String>;
   email: () => Promise<String>;
   address: () => Promise<String>;
+  lattitude: () => Promise<Float>;
+  longitude: () => Promise<Float>;
 }
 
 export interface GroupPreviousValuesSubscription
@@ -1750,6 +1479,8 @@ export interface GroupPreviousValuesSubscription
   phone: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   address: () => Promise<AsyncIterator<String>>;
+  lattitude: () => Promise<AsyncIterator<Float>>;
+  longitude: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface MeetingSubscriptionPayload {
@@ -1898,10 +1629,6 @@ export const models: Model[] = [
   },
   {
     name: "Meeting",
-    embedded: false
-  },
-  {
-    name: "Geometry",
     embedded: false
   },
   {

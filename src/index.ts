@@ -1,4 +1,6 @@
 
+require('dotenv').config()
+
 import { resolvers } from './resolvers'
 import * as path from 'path'
 import express = require('express');
@@ -9,11 +11,8 @@ import * as cors from "cors";
 import {prisma} from '../prisma/generated/prisma-client'
 
 const graphqlPath: string  = '/api/graphql'
-
 const schema = path.resolve('src/schema/Schema.graphql')
-
 const typeDefs = importSchema(schema)
-console.log(importSchema(schema))
 
 const app: express.Application = express();
 app.use(cors())

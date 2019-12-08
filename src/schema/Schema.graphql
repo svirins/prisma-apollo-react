@@ -16,7 +16,8 @@ type Group {
   phone:         String
   email:         String
   address:       String
-  geodata:       Geometry! 
+	lattitude:     Float
+	longitude:     Float
   meetings:      [Meeting!]     
 }
 
@@ -27,13 +28,6 @@ type Meeting {
   weekday:      Weekday!
   time:         String!
   type:         meetingType
-}
-
-input Geometry {
-  id:           ID! 
-  group:        Group!       
-  latitude:     Float!
-  longitude:    Float!
 }
 
 enum Weekday {
